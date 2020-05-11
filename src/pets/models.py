@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 
 class Pet(models.Model):
@@ -7,4 +8,17 @@ class Pet(models.Model):
     species = models.CharField(max_length=200)
     breed = models.CharField(max_length=200)
     weight_in_pounds = models.DecimalField(max_digits=5, decimal_places=2)
-    Owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
+class Appointment(models.Model):
+    date_of_appointment = models.DateField(default=datetime.now)
+    duration_minutes = models.IntegerField()
+    special_instructions = CharField(max_length=400)
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
