@@ -17,7 +17,7 @@ class Pet(models.Model):
 class Appointment(models.Model):
     date_of_appointment = models.DateField(default=datetime.now)
     duration_minutes = models.IntegerField()
-    special_instructions = CharField(max_length=400)
+    special_instructions = models.CharField(max_length=400)
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
 
     def __str__(self):
