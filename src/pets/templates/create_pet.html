@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<a href="{% url 'pets-page' %}" class="btn btn-danger">Back</a>
+<a href="{% url 'pets-list-page' %}" class="btn btn-danger">Back</a>
 <h2 style="margin-top: 15px">Enter your pet's information</h2>
 <br />
 <form method="POST" style="display: 'flex'; flex-direction: 'column';">
@@ -14,3 +14,4 @@
     <button class="btn btn-primary" type="submit">Submit</button>
 </form>
 {% endblock content %}
+
