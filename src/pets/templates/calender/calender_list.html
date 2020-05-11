@@ -1,0 +1,17 @@
+{% extends "base.html" %} 
+{% block content %}
+
+{% if request.user.is_authenticated %}
+    <a href="{% url 'pet-create-page' %}" class="btn btn-success">Create Appointment</a>
+{% endif %}
+
+<ul>
+    <li>Hi</li>
+    <!-- {% for pet in pets %} -->
+    <!-- <li> -->
+    <!--     <a href="{% url 'pet-detail-page' pet.id %}">{{pet.pet_name}}</a> -->
+    <!-- </li> -->
+    <!-- {% endfor %} -->
+</ul>
+
+{% endblock %}

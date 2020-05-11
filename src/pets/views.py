@@ -4,7 +4,7 @@ from django.views.generic.edit import CreateView
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from pets.models import Pet
+from pets.models import Pet, Appointment
 
 
 class HomeView(ListView):
@@ -34,7 +34,17 @@ class PetsListView(ListView):
 class PetDetailView(DetailView):
     '''Render pet information'''
 
-    def get(self, request, pet_id):
-        return render(request, 'pet/pet_detail.html', {
+    def get(self, req, pet_id):
+        return render(req, 'pet/pet_detail.html', {
             'pet': Pet.objects.get(id=pet_id)
+        })
+
+
+class CalenderView(ListView):
+    model = Appointment
+
+    def get(self, req):
+        calender = self.get_queryset().all()
+        return render(req, 'calender/calender_list.html', {
+            'calender': calender
         })
