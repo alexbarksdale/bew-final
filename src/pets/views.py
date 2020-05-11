@@ -3,6 +3,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.utils import timezone
 
 from pets.models import Pet, Appointment
 
@@ -15,9 +16,10 @@ class HomeView(ListView):
 
 
 class PetCreateView(CreateView):
+    '''Create a pet form'''
     model = Pet
     fields = ['pet_name', 'species', 'breed', 'weight_in_pounds']
-    template_name = 'create_pet.html'
+    template_name = 'pet/create_pet.html'
 
 
 class PetsListView(ListView):
@@ -40,11 +42,25 @@ class PetDetailView(DetailView):
         })
 
 
-class CalenderView(ListView):
+class AppointmentCreateView(CreateView):
+    '''Create an appointment form'''
+    model = Appointment
+    fields = ['date_of_appointment',
+              'duration_minutes', 'special_instructions', 'pet']
+    template_name = 'calender/create_appointment.html'
+
+
+class CalenderListView(ListView):
+    '''Render all appointments'''
     model = Appointment
 
     def get(self, req):
-        calender = self.get_queryset().all()
+        appointments = self.get_queryset().all()
         return render(req, 'calender/calender_list.html', {
-            'calender': calender
+            'appointments': appointments.filter(
+                # renders things greater than today's date
+                date_of_appointment__gte=timezone.now()
+                # Sorts by the soonest first. Put '-' in front of the first argument for greatest to least.
+                # Example: '-date_of_appointment' === greatest to least order
+            ).order_by('date_of_appointment', 'date_of_appointment')
         })
