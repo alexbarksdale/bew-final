@@ -8,11 +8,12 @@ from pets.models import Pet, Appointment
 class PetTests(TestCase):
     def test_list_page(self):
         # Instance of user to test the pages
-        user = User.objects.create()
+        user = User.objects.create_user(username='test', password='testing123')
+        self.client.login(username='test', password='testing123')
 
         # Create a test pet
-        pet = Pet.objects.create(pet_name="Ricky",
-                                 species="Dog",
+        pet = Pet.objects.create(pet_name='Ricky',
+                                 species='Dog',
                                  breed='Husky',
                                  weight_in_pounds=55.6,
                                  owner=user)
@@ -37,8 +38,8 @@ class PetTests(TestCase):
         self.client.login(username='test', password='testing123')
 
         # Create a test pet
-        pet = Pet.objects.create(pet_name="Ricky",
-                                 species="Dog",
+        pet = Pet.objects.create(pet_name='Ricky',
+                                 species='Dog',
                                  breed='Husky',
                                  weight_in_pounds=55.6,
                                  owner=user)
@@ -59,4 +60,28 @@ class PetTests(TestCase):
         # Get pet object to check
         pet_object = Pet.objects.get(pet_name='Ricky')
         # Check if the pet's name appears in the result
+        self.assertEqual(pet_object.pet_name, 'Ricky')
+
+    def test_pet_create_page(self):
+        # Instance of user to test the pages
+        user = User.objects.create()
+
+        post_data = {
+            'pet_name': 'Ricky',
+            'species': 'Dog',
+            'breed': 'Husky',
+            'weight_in_pounds': 55.6,
+            'owner': user.id
+        }
+
+        # Request to create a post
+        res = self.client.post('/pet/create/', data=post_data)
+
+        # Very a 302 response
+        self.assertEqual(res.status_code, 302)
+
+        # Get pet object to check
+        pet_object = Pet.objects.get(pet_name='Ricky')
+
+        # Check if the pet was creaetd
         self.assertEqual(pet_object.pet_name, 'Ricky')

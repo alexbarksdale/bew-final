@@ -11,7 +11,6 @@ class Pet(models.Model):
     breed = models.CharField(max_length=200)
     weight_in_pounds = models.DecimalField(max_digits=5, decimal_places=2)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    slug = models.CharField(max_length=200, blank=True, editable=False)
 
     def get_absolute_url(self):
         # Returns back to the list page after a new pet is created

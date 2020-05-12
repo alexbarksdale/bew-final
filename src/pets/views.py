@@ -18,7 +18,7 @@ class HomeView(ListView):
 class PetCreateView(CreateView):
     '''Create a pet form'''
     model = Pet
-    fields = ['pet_name', 'species', 'breed', 'weight_in_pounds']
+    fields = ['pet_name', 'species', 'breed', 'weight_in_pounds', 'owner']
     template_name = 'pet/create_pet.html'
 
 
